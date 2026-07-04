@@ -6,7 +6,7 @@ NVIDIA DGX Spark / GB10 (Grace Blackwell, ARM64) 本地大模型管理工具。
 加载/卸载、**OpenAI + Claude 兼容的统一对外 API 网关**、SearXNG 本地搜索集成、系统资源
 监控与运行观测。当前版本 **v2.2.0**（完整版本历史见 [docs/Task_Tracking.md](docs/Task_Tracking.md)）。
 
-> 设计与需求见 [docs/技术方案.md](docs/技术方案.md) 与 [docs/研发方案.md](docs/研发方案.md)；新会话快速接手见 [docs/上下文交接.md](docs/上下文交接.md)。所有研发文档集中在 [docs/](docs/)。
+> 设计与需求见 [ [docs/研发方案.md](docs/研发方案.md)；新会话快速接手见 [docs/上下文交接.md](docs/上下文交接.md)。所有研发文档集中在 [docs/](docs/)。
 
 ## 目录结构
 
