@@ -1,0 +1,19 @@
+# 配置样例 — 复制为 settings.yaml 后按需修改
+# secret_key / admin_password 请勿提交真实值到版本库
+
+web_port: 8000
+web_host: "0.0.0.0"
+frontend_port: 4173
+secret_key: "REPLACE_WITH_RANDOM_SECRET"
+admin_username: "admin"
+admin_password: "REPLACE_WITH_STRONG_PASSWORD"
+
+model_root_dir: "/home/spark/LocalModels/LLModels"
+data_dir: "/home/spark/nvidia-gb10-manager/data"
+
+searxng_port: 8080
+searxng_url: "http://127.0.0.1:8080"
+
+vllm_image: "gb10-vllm:26.06-py3-patched"
+cuda_compat_dir: "/usr/local/cuda-13.3/compat"
+vllm_api_key: "sk-REPLACE_WITH_RANDOM_KEY"

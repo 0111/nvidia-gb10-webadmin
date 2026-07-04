@@ -1,0 +1,15 @@
+[project]
+name = "nvidia-gb10-manager"
+version = "0.1.0"
+description = "NVIDIA DGX Spark / GB10 local LLM management tool"
+requires-python = ">=3.11"
+dependencies = [
+    "click>=8.1",
+    "PyYAML>=6.0",
+]
+
+[project.scripts]
+gb10ctl = "cli.main:cli"
+
+[tool.setuptools.packages.find]
+include = ["core*", "cli*"]

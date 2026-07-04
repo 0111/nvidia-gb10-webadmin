@@ -1,0 +1,13 @@
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: gb10-searxng
+    restart: "no"
+    ports:
+      - "${SEARXNG_PORT:-8080}:8080"
+    # 不再硬编码 SEARXNG_BASE_URL：原先固定为 http://localhost:8080/，导致
+    # opensearch.xml / 偏好设置等页面里生成的链接都指向 localhost，从局域网
+    # (192.168.199.4) 或 tailscale 等其它 IP 访问时点不动。改由 searxng-settings.yml
+    # 的 server.base_url: false 让 SearXNG 依据请求的 Host 头自动推导正确的对外地址。
+    volumes:
+      - "./searxng-settings.yml:/etc/searxng/settings.yml:ro"

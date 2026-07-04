@@ -1,0 +1,50 @@
+# SearXNG settings.yml — 最小可用配置
+#
+# use_default_settings: true 表示在 SearXNG 官方内置默认配置基础上，
+# 只覆盖本文件中显式列出的字段，其余（引擎列表等）沿用官方默认值。
+#
+# search.formats 必须包含 json，否则 Project_Task.md 要求的
+# `/search?q=...&format=json&...` 调用方式会被拒绝（返回 403）。
+# use_default_settings 用 dict 形式：在官方默认配置基础上，从默认引擎列表里
+# 「彻底移除」ahmia / torch。这两个是 Tor 暗网(onion)引擎，无 Tor 代理时在
+# 「加载阶段」就报 `loading engine ... failed: set engine to inactive!`——仅
+# `disabled: true` 不够（被禁用的引擎仍会被加载并触发该错误），必须 remove
+# 才能根除。注意：只移除「无依赖」的引擎；brave/startpage 这类与其它引擎共享
+# network 的不能 remove（删主引擎会让同组引擎的 `network: brave` 引用变成
+# KeyError 导致整个 SearXNG 启动崩溃），它们改用下面的 disabled。
+use_default_settings:
+  engines:
+    remove:
+      - ahmia
+      - torch
+
+general:
+  instance_name: "gb10-searxng"
+
+search:
+  formats:
+    - html
+    - json
+
+# 这两个引擎的报错发生在「搜索时」（被使用才报），用 disabled 禁用即可——既不
+# 参与搜索、也不破坏其同组引擎共享的 network 定义。
+engines:
+  # brave 公共端点对数据中心/频繁查询 IP 限流严重，刷 `Too many request`。
+  - name: brave
+    disabled: true
+  # startpage 从本机(数据中心 IP)常被返回验证码/拦截页(非 JSON)，搜索时报
+  # `json.decoder.JSONDecodeError: Extra data`，与 brave 同类的 IP 封锁问题。
+  - name: startpage
+    disabled: true
+
+server:
+  # base_url: false → 让 SearXNG 依据每个请求的 Host 头自动推导对外地址，
+  # 这样 opensearch.xml / 偏好设置等页面生成的链接会跟随实际访问用的 IP
+  # (192.168.199.4 / tailscale 100.x / ...)，不再硬指向 localhost。
+  base_url: false
+  # secret_key: 留空时 SearXNG 会在启动时自动生成一个临时密钥（仅用于
+  # CSRF 防护，不影响 API 搜索功能）。生产环境建议用户自行替换为固定的
+  # 随机字符串，例如: openssl rand -hex 32
+  secret_key: "REPLACE_WITH_RANDOM_SECRET_OR_LEAVE_FOR_AUTOGEN"
+  limiter: false
+  image_proxy: false
